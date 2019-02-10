@@ -1,4 +1,4 @@
-package world.mitchmiller.foodanddrinkdiary
+package world.mitchmiller.foodanddrinkdiary.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import kotlinx.android.synthetic.main.activity_main.*
+import world.mitchmiller.foodanddrinkdiary.R
 import world.mitchmiller.foodanddrinkdiary.vision.BarcodeCaptureActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -69,7 +70,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val intent = Intent(this, BarcodeCaptureActivity::class.java)
         intent.putExtra(BarcodeCaptureActivity.AutoFocus, true)
         intent.putExtra(BarcodeCaptureActivity.UseFlash, false)
-        startActivityForResult(intent, RC_BARCODE_CAPTURE)
+        startActivityForResult(intent,
+            RC_BARCODE_CAPTURE
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
