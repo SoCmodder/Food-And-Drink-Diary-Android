@@ -6,14 +6,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_main"
+        tools:showIn="@layout/activity_barcode_setup"
         tools:context=".ui.activity.MainActivity">
 
-    <Button
-            android:id="@+id/barcode_launch_button"
-            android:layout_centerInParent="true"
-            android:text="@string/launch_barcode_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/food_recyclerview"
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/recyclerview_item"/>
 
 </RelativeLayout>

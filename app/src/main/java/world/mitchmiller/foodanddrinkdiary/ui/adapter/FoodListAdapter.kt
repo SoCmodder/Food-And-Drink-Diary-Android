@@ -30,4 +30,9 @@ class FoodListAdapter internal constructor(context: Context) : RecyclerView.Adap
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val foodItemView: TextView = itemView.findViewById(R.id.textView)
     }
+
+    internal fun setFoodItems(foodItems: List<FoodItem>) {
+        this.foodItems = foodItems
+        notifyDataSetChanged()
+    }
 }
