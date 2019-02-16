@@ -16,5 +16,9 @@
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="launch_barcode_activity">Launch Barcode Activity</string>
+    <string name="hint_food">food</string>
+    <string name="button_save">Save</string>
+    <string name="hint_calories">calories</string>
+    <string name="hint_notes">notes</string>
 
 </resources>

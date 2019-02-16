@@ -23,7 +23,7 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
     val allFoodItems: LiveData<List<FoodItem>>
 
     init {
-        val foodDao = FoodRoomDatabase.getDatabase(application).foodDao()
+        val foodDao = FoodRoomDatabase.getDatabase(application, scope).foodDao()
         repository = FoodItemRepository(foodDao)
         allFoodItems = repository.allFoodItems
     }

@@ -5,38 +5,49 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_barcode_setup.*
 import kotlinx.android.synthetic.main.activity_main.*
 import world.mitchmiller.foodanddrinkdiary.R
 import world.mitchmiller.foodanddrinkdiary.ui.adapter.FoodListAdapter
+import world.mitchmiller.foodanddrinkdiary.viewmodel.FoodViewModel
 import world.mitchmiller.foodanddrinkdiary.vision.BarcodeCaptureActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var autoFocus: CompoundButton
-    private lateinit var useFlash: CompoundButton
-    private lateinit var statusMessage: TextView
-    private lateinit var barcodeValue: TextView
+//    private lateinit var autoFocus: CompoundButton
+//    private lateinit var useFlash: CompoundButton
+//    private lateinit var statusMessage: TextView
+//    private lateinit var barcodeValue: TextView
     private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var foodViewModel: FoodViewModel
 
     companion object {
         private const val RC_BARCODE_CAPTURE = 9001
         private const val TAG = "MainActivity"
+        const val newWordActivityRequestCode = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupRecyclerView()
+        val recyclerView = findViewById<RecyclerView>(R.id.food_recyclerview)
+        val adapter = FoodListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        foodViewModel = ViewModelProviders.of(this).get(FoodViewModel::class.java)
+
+        foodViewModel.allFoodItems.observe(this, Observer { foodItems ->
+            foodItems?.let { adapter.setFoodItems(it) }
+        })
 
         floatingActionButton = main_fab
 
@@ -64,27 +75,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     val barcode: Barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject)
-                    statusMessage.text = getString(R.string.barcode_success)
-                    barcodeValue.text = barcode.displayValue
+//                    statusMessage.text = getString(R.string.barcode_success)
+//                    barcodeValue.text = barcode.displayValue
                     Log.d(TAG, "Barcode read: " + barcode.displayValue)
                 } else {
-                    statusMessage.text = getString(R.string.barcode_failure)
+                    //statusMessage.text = getString(R.string.barcode_failure)
                     Log.d(TAG, "No barcode captured, intent data is null")
                 }
             } else {
-                statusMessage.text = String.format(getString(R.string.barcode_error),
-                    CommonStatusCodes.getStatusCodeString(resultCode))
+                //statusMessage.text = String.format(getString(R.string.barcode_error),
+                    //CommonStatusCodes.getStatusCodeString(resultCode))
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    private fun setupRecyclerView() {
-        val recyclerView = findViewById<RecyclerView>(R.id.food_recyclerview)
-        val adapter = FoodListAdapter(this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     private fun handleFabClick() {
